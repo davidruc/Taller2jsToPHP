@@ -9,10 +9,18 @@
    $METHOD = $_SERVER["REQUEST_METHOD"];
 
    function validar($arg){
-    return ($arg == 0) ? "Par" : "Impar";
+    if (is_numeric($arg)){
+        return ($arg == 0) ? "Par" : "Impar";
+    } else {
+        return "ERROR";
+    }
    }
    function validar2($arg){
-    return ($arg > 10) ? "Es mayor que 10" : "Menor de 10" ;
+    if (is_numeric($arg)){
+        return ($arg > 10) ? "Es mayor que 10" : "Menor de 10" ;
+    } else {
+        return "ERROR";
+    }
    }
    function algoritmo(float $num){ 
     $modulo = $num % 2;

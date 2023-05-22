@@ -11,5 +11,4 @@ myForm.addEventListener("submit", async(e)=>{
     let res = await (await fetch("api.php", config)).text();
     console.log(res);
     document.querySelector("pre").innerHTML = res;
-    console.log(res);
 })

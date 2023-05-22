@@ -9,23 +9,33 @@
    $METHOD = $_SERVER["REQUEST_METHOD"];
 
    function validar($arg){
-    return ($arg<=3.9) ? "Estudie" : "Estas becado";
+    return ($arg == 0) ? "Par" : "Impar";
    }
-   function algoritmo(float $nota, float $nota2, float $nota3){ 
-    $promedio = ($nota+$nota2+$nota3)/3;
-    return $promedio;
+   function validar2($arg){
+    return ($arg > 10) ? "Es mayor que 10" : "Menor de 10" ;
    }
+   function algoritmo(float $num){ 
+    $modulo = $num % 2;
+    return $modulo;
+   }
+   function algoritmo2(float $num){
+    return $num;
+   }
+   
    try {
     $res = match($METHOD){
         "POST" => algoritmo(...$_DATA)
     };
+    $res2 = match($METHOD){
+        "POST" => algoritmo2(...$_DATA)
+    };
    }catch (\Throwable $th) {
     $res = "ERROR";
+    $res2 = "ERROR";
    };
    $mensaje = (array) [
-    "mensaje" => validar($res),
-    "notas" => $_DATA,
-    "promedio" => $res
+    "TIPO" => validar($res),
+    "VALIDACION" => validar2($res2)
    ];
    echo json_encode($mensaje, JSON_PRETTY_PRINT);
 

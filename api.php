@@ -1,8 +1,6 @@
 <?php
-    //Construir el algoritmo para un programa que ingrese tres
-    //notas de un alumno, si el promedio es menor o igual a 3.9
-    //mostrar un mensaje "Estudie“, de lo contrario un mensaje que
-    //diga "becado"
+    // 3. Construir el algoritmo para determinar el voltaje de un
+    // circuito a partir de la resistencia y la intensidad de corriente.
 
    header("Content-Type: application/json; charset:UTF-8");
    $_DATA = json_decode(file_get_contents("php://input"), true);
@@ -10,40 +8,25 @@
 
    function validar($arg){
     if (is_numeric($arg)){
-        return ($arg == 0) ? "Par" : "Impar";
+        return ("$arg volts");
     } else {
         return "ERROR";
     }
-   }
-   function validar2($arg){
-    if (is_numeric($arg)){
-        return ($arg > 10) ? "Es mayor que 10" : "Menor de 10" ;
-    } else {
-        return "ERROR";
-    }
-   }
-   function algoritmo(float $num){ 
-    $modulo = $num % 2;
-    return $modulo;
-   }
-   function algoritmo2(float $num){
-    return $num;
    }
    
+   function algoritmo(float $resistencia, float $intensidad){ 
+    $voltaje = $resistencia * $intensidad;
+    return $voltaje;
+   } 
    try {
     $res = match($METHOD){
         "POST" => algoritmo(...$_DATA)
     };
-    $res2 = match($METHOD){
-        "POST" => algoritmo2(...$_DATA)
-    };
    }catch (\Throwable $th) {
     $res = "ERROR";
-    $res2 = "ERROR";
    };
    $mensaje = (array) [
-    "TIPO" => validar($res),
-    "VALIDACION" => validar2($res2)
+    "VOLTAJE" => validar($res),
    ];
    echo json_encode($mensaje, JSON_PRETTY_PRINT);
 

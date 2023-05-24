@@ -34,7 +34,9 @@
             $indice = array_search($oro, array_column($_DATA, 'marca'));
             $nombreGanadora = $_DATA[$indice]['nombre'];
         } else{
+            $mensaje = "Si participaste??";
             $marca = "Error";
+            
         }
         
         

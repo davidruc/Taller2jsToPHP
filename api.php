@@ -1,10 +1,8 @@
 <?php
 
-    // 6. Construir el algoritmo en PHP para un programa
-    // para cualquier cantidad de estudiantes que lea el nombre,
-    // el sexo y la nota definitiva y halle al estudiante con la mayor
-    // nota y al estudiante con la menor nota y cuantos eran
-    // hombres y cuantos mujeres.
+    // 7. Programa que pida el ingreso del nombre y precio de un artículo y la
+    // cantidad que lleva el cliente. Mostrar lo que debe pagar el comprador
+    // en su factura.
 
     header("Content-Type: application/json; charset:UTF-8");
     $_DATA = json_decode(file_get_contents("php://input"), true);
@@ -15,31 +13,30 @@
     }
     function algoritmo(){
     global $_DATA;
-    $definitivas = [];
-    $countMen = 0;
-    $countWoman = 0;
+    $allArticulos = array();
+    $total = 0;
     foreach ($_DATA as $elemento) {
-        $definitiva = floatval($elemento['definitiva']);
-        $definitivas[] = $definitiva;
-        $gender = $elemento['sexo'];
-        if($gender == "hombre"){
-            $countMen++;
+        $precio = $elemento['precio'];
+        $cantidad = $elemento['cantidad'];
+        $articulo = $elemento['articulo'];
+        if(is_numeric($precio) && is_numeric($cantidad)){
+            $total = $total + $precio*$cantidad;
+            $suma = $precio*$cantidad;
         } else {
-            $countWoman++;
+            $total = $total;
+            $suma = "Error, no es un dato valido";
         }
+
+        $datos = array(
+            "articulo" => $articulo,
+            "Precio" => $precio,
+            "Cantidad" => $cantidad,
+            "Total producto" => $suma,
+            "Total Factura" => $total
+        );
+        array_push($allArticulos, $datos);
     }
-    $maxDefinitiva = max($definitivas);
-    $minDefinitiva = min($definitivas);
-    $indice = array_search($maxDefinitiva, array_column($_DATA, 'definitiva'));
-    $nameMaxDef = $_DATA[$indice]['nombre'];
-    $indice2 = array_search($minDefinitiva, array_column($_DATA, 'definitiva'));
-    $nameMinDef = $_DATA[$indice2]['nombre'];
-    return array(
-        "Nombre de quien saco la nota maxima" => $nameMaxDef,
-        "Nombre de quien saco la nota minima" => $nameMinDef,
-        "Numero de hombres" => $countMen,
-        "Numero de mujeres" => $countWoman,
-    );
+    return $allArticulos;
     }
     try {
     $res = match($METHOD){
@@ -49,8 +46,7 @@
         $res = "ERROR";
     };
     $mensaje = (array) [
-        "Datos" => $_DATA,
-        "Respuesta" => validar($res)
+        "Lista de mercado" => validar($res)
     ];
     echo json_encode($mensaje, JSON_PRETTY_PRINT);
 ?>

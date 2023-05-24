@@ -1,10 +1,12 @@
 <?php
 
-    // 8. Programa que Ingrese por teclado:
-    // a. el valor del lado de un cuadrado para mostrar por pantalla el
-    // perímetro del mismo
-    // b. la base y la altura de un rectángulo para mostrar el área del
-    // mismo
+    // 9. N atletas han pasado a finales en salto triple en los juegos
+    // olímpicos femenino de 2022. Diseñe un programa que pida por
+    // teclado los nombres de cada atleta finalista y a su vez, sus
+    // marcas del salto en metros. Informar el nombre de la atleta
+    // campeona que se quede con la medalla de oro y si rompió
+    // récord, reportar el pago que será de 500 millones. El récord
+    // esta en 15,50 metros.
 
     header("Content-Type: application/json; charset:UTF-8");
     $_DATA = json_decode(file_get_contents("php://input"), true);
@@ -15,33 +17,33 @@
     }
     function algoritmo(){
     global $_DATA;
-    $allCalculos = array();
-    $total = 0;
+    $record = 15.50;
+    $marcas = [];
     foreach ($_DATA as $elemento) {
-        $lado = $elemento['lado'];
-        $base = $elemento['base'];
-        $altura = $elemento['altura'];
-        if(is_numeric($lado)){
-            $perimetro = 4*$lado;
-        } else {
-            $perimetro = "ingrese un dao valido";
+        $nombre = $elemento['nombre'];
+        $marca = ($elemento['marca']);
+        $marcas[] = $marca;
+        if(is_numeric($marca)){
+            if($marca > $record){
+                $mensaje = "$nombre haz roto el anterior record mundial que era $record [Metros]. Ten 500 millones (Se ha establecido un nuevo record)";
+                $record = $marca;
+            } else {
+                $mensaje = "No rompiste el record (es de $record)";
+            }
+            $oro = max($marcas);
+            $indice = array_search($oro, array_column($_DATA, 'marca'));
+            $nombreGanadora = $_DATA[$indice]['nombre'];
+        } else{
+            $marca = "Error";
         }
-        if(is_numeric($base) && is_numeric($altura)){
-            $area = $base*$altura;
-        } 
-        else {
-            $area = "ingrese un dao valido";
-        }
-        $datos = array(
-            "Lado" => $lado,
-            "perimetro Cuadrado" => $perimetro,
-            "Alto" => $altura,
-            "Base" => $base,
-            "Area rectangulo" => $area
-        );
-        array_push($allCalculos, $datos);
+        
+        
     }
-    return $allCalculos;
+    return array(
+        "mensaje" => $mensaje,
+        "Marca de la atleta ($nombre)" => $marca." [Metros]",
+        "Marca del la mejor atleta ($nombreGanadora)" => $oro." [Metros]",
+    );;
     }
     try {
     $res = match($METHOD){
@@ -51,6 +53,7 @@
         $res = "ERROR";
     };
     $mensaje = (array) [
+        "Data" => $_DATA,
         "Calculos" => validar($res)
     ];
     echo json_encode($mensaje, JSON_PRETTY_PRINT);

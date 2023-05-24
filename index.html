@@ -8,18 +8,20 @@
     <script src="main.js" defer></script>
 </head>
 <body>
-    <!-- 5. Construir el algoritmo que lea por teclado dos números,
-    si el primero es mayor al segundo informar su suma y
-    diferencia, en caso contrario, informar el producto y la
-    división del primero respecto al segundo. -->
-    <p>5. Construir el algoritmo que lea por teclado dos números,
-        si el primero es mayor al segundo informar su suma y
-        diferencia, en caso contrario, informar el producto y la
-        división del primero respecto al segundo.</p><br>
+
+    <p>-6. Construir el algoritmo en PHP para un programa
+        para cualquier cantidad de estudiantes que lea el nombre,
+        el sexo y la nota definitiva y halle al estudiante con la mayor
+        nota y al estudiante con la menor nota y cuantos eran
+        hombres y cuantos mujeres.</p><br>
     <form id="myForm">
         <label> Ingrese dos números.</label><br><br>  
-        <input type="text"  name="num1" placeholder="número 1"><br><br>
-        <input type="text"  name="num2" placeholder="número 2"><br><br>
+        <input type="text" name="nombre" placeholder="nombre estudiante"><br><br>
+        <input type="text" pattern="[0-9-.]+" name="definitiva" placeholder="Nota Definitiva"><br><br>
+        <select name="sexo">
+            <option value="hombre"> Hombre</option>
+            <option value="mujer"> Mujer</option>
+        </select>
         <input type="submit" value="enviar">
     </form>
     <pre></pre>

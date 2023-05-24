@@ -1,8 +1,10 @@
 <?php
 
-    // 7. Programa que pida el ingreso del nombre y precio de un artículo y la
-    // cantidad que lleva el cliente. Mostrar lo que debe pagar el comprador
-    // en su factura.
+    // 8. Programa que Ingrese por teclado:
+    // a. el valor del lado de un cuadrado para mostrar por pantalla el
+    // perímetro del mismo
+    // b. la base y la altura de un rectángulo para mostrar el área del
+    // mismo
 
     header("Content-Type: application/json; charset:UTF-8");
     $_DATA = json_decode(file_get_contents("php://input"), true);
@@ -13,30 +15,33 @@
     }
     function algoritmo(){
     global $_DATA;
-    $allArticulos = array();
+    $allCalculos = array();
     $total = 0;
     foreach ($_DATA as $elemento) {
-        $precio = $elemento['precio'];
-        $cantidad = $elemento['cantidad'];
-        $articulo = $elemento['articulo'];
-        if(is_numeric($precio) && is_numeric($cantidad)){
-            $total = $total + $precio*$cantidad;
-            $suma = $precio*$cantidad;
+        $lado = $elemento['lado'];
+        $base = $elemento['base'];
+        $altura = $elemento['altura'];
+        if(is_numeric($lado)){
+            $perimetro = 4*$lado;
         } else {
-            $total = $total;
-            $suma = "Error, no es un dato valido";
+            $perimetro = "ingrese un dao valido";
         }
-
+        if(is_numeric($base) && is_numeric($altura)){
+            $area = $base*$altura;
+        } 
+        else {
+            $area = "ingrese un dao valido";
+        }
         $datos = array(
-            "articulo" => $articulo,
-            "Precio" => $precio,
-            "Cantidad" => $cantidad,
-            "Total producto" => $suma,
-            "Total Factura" => $total
+            "Lado" => $lado,
+            "perimetro Cuadrado" => $perimetro,
+            "Alto" => $altura,
+            "Base" => $base,
+            "Area rectangulo" => $area
         );
-        array_push($allArticulos, $datos);
+        array_push($allCalculos, $datos);
     }
-    return $allArticulos;
+    return $allCalculos;
     }
     try {
     $res = match($METHOD){
@@ -46,7 +51,7 @@
         $res = "ERROR";
     };
     $mensaje = (array) [
-        "Lista de mercado" => validar($res)
+        "Calculos" => validar($res)
     ];
     echo json_encode($mensaje, JSON_PRETTY_PRINT);
 ?>
